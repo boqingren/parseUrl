@@ -61,10 +61,10 @@ let parseUrl = url => {
     let getHash = (suffixs) => parseSuffixs(suffixs).afterSuffixs.split(/#/)[1];            // 获取 hash
 
     let breakDown = (url, lastPointIndex, suffixs) => {
-        if (isQuestionOrSharpOnsuffixs(suffixs)) {  // suffixs(域名后缀) 存在 “?” 或 “#”`
+        if (isQuestionOrSharpOnsuffixs(suffixs)) {                                          // suffixs(域名后缀) 存在 “?” 或 “#”`
             // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title'
             
-            if (isQuestionAndSharpOnsuffixs(suffixs)) { // suffixs(域名后缀) 同时存在 “?” 或 “#”
+            if (isQuestionAndSharpOnsuffixs(suffixs)) {                                     // suffixs(域名后缀) 同时存在 “?” 或 “#”
                 // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title'
                 return {
                     protocol: getProtocol(url, lastPointIndex),
@@ -73,7 +73,7 @@ let parseUrl = url => {
                     query: getQuery(suffixs),
                     hash: getHash(suffixs)
                 }
-            } else if (onlyQuestionOnsuffixs(suffixs)) {    // suffixs(域名后缀) 只存在 “?”
+            } else if (onlyQuestionOnsuffixs(suffixs)) {                                    // suffixs(域名后缀) 只存在 “?”
                 // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount'
                 return {
                     protocol: getProtocol(url, lastPointIndex),
@@ -82,7 +82,7 @@ let parseUrl = url => {
                     query: getQuery(suffixs),
                     hash: ''
                 }
-            } else if (onlySharpOnsuffixs(suffixs)) {   // suffixs(域名后缀) 只存在 “#”`
+            } else if (onlySharpOnsuffixs(suffixs)) {                                       // suffixs(域名后缀) 只存在 “#”`
                 // 'http://www.xiyanghui.com/product/list#title'
                 return {
                     protocol: getProtocol(url, lastPointIndex),
@@ -92,7 +92,7 @@ let parseUrl = url => {
                     hash: getHash(suffixs)
                 }
             }
-        } else {    // suffixs(域名后缀) 不存在 “?” 或 “#”
+        } else {                                                                            // suffixs(域名后缀) 不存在 “?” 或 “#”
             // 'http://www.xiyanghui.com/product/list'
             return {
                 protocol: getProtocol(url, lastPointIndex),
@@ -105,19 +105,19 @@ let parseUrl = url => {
     }
 
     /* ================================================================ 入口 ================================================================ */
-    if (isPointOnUrl(url)) {                    // 有 “.” 就进来了！
+    if (isPointOnUrl(url)) {                                                                // 有 “.” 就进来了！
         let {lastPointIndex, suffixs} = getPointAndsuffixs(url);
-        if (isSlashOnsuffixs(suffixs)) {    // suffixs 中包含了斜杠
+        if (isSlashOnsuffixs(suffixs)) {                                                    // suffixs 中包含了斜杠
             // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title'
             return breakDown(url, lastPointIndex, suffixs);
-        } else {                                // suffixs 中不包含斜杠
-            if (getUrlSlashCount(url) > 2) {    // url 中  “/” 出现的次数大于 2
+        } else {                                                                            // suffixs 中不包含斜杠
+            if (getUrlSlashCount(url) > 2) {                                                // url 中  “/” 出现的次数大于 2
                 // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title.html'
-                url = newUrl(url, lastPointIndex);  // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title'
+                url = newUrl(url, lastPointIndex);                                          // 'http://www.xiyanghui.com/product/list?id=123456&sort=discount#title'
                 lastPointIndex = getPointAndsuffixs(url).lastPointIndex;
                 suffixs = getPointAndsuffixs(url).suffixs;
                 return breakDown(url, lastPointIndex, suffixs);
-            } else {                            // url 中  “/” 出现的次数小于等于 2
+            } else {                                                                        // url 中  “/” 出现的次数小于等于 2
                 // 'http://www.xiyanghui.com'
                 return {
                     protocol: url.split(/\//)[0].replace(/:/,''),
